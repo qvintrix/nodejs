@@ -23,8 +23,18 @@ class DirWatcher {
       // })
       // }
       for (var index in files) {
-        checkFileExists(`${path}/${files[index]}`, this.conditionObj)
-          .then(res => console.log(res))
+        // checkFileExists(`${path}/${files[index]}`, this.conditionObj)
+        //   .then(res => console.log(res))
+        // checkFileExists(`${path}/${files[index]}`, this.conditionObj);
+        // debugger
+        const fileArr = files[index].split('.')
+        // console.log(fileArr[fileArr.length - 1])
+        if (fileArr[fileArr.length - 1] === 'csv') {
+          this.promiseArr.push(checkFileExists(`${path}/${files[index]}`));
+        }
+
+
+
         // console.log(files[index]);
         // this.conditionObj[`${path}/${files[index]}`] = checkFileExists(`${path}/${files[index]}`);
         // this.conditionObj.push(checkFileExists(`${path}/${files[index]}`, this.conditionObj));
@@ -36,10 +46,10 @@ class DirWatcher {
         // })
       }
 
-      // Promise.resolve(this.conditionObj)
-      //   .then(result => {
-      //     console.log(result);
-      //   })
+      Promise.all(this.promiseArr)
+        .then(reslut => {
+          console.log(reslut);
+        })
 
       // console.log(this.conditionObj);
     });
@@ -57,9 +67,7 @@ function checkFileExists(path, conditionObj) {
     fs.stat(path, (err, stats) => {
       // console.log(conditionObj)
       // console.log(path)
-      resolve(
-        conditionObj[path] = stats.mtime.getTime()
-      );
+      resolve(stats.mtime.getTime());
     });
   });
 }
