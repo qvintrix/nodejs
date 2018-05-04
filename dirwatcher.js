@@ -14,44 +14,34 @@ class DirWatcher {
       if (err) {
         throw err;
       }
-      // myEmitter.emit('changed', files);
 
-      // if (files.length) {
-      //   // console.log(`${path}/${files[0]}`);
-      // fs.stat(`${path}/${files[0]}`, (err, stats) => {
-      //   console.log(stats.mtime.getTime());
-      // })
-      // }
       for (var index in files) {
-        // checkFileExists(`${path}/${files[index]}`, this.conditionObj)
-        //   .then(res => console.log(res))
-        // checkFileExists(`${path}/${files[index]}`, this.conditionObj);
-        // debugger
-        const fileArr = files[index].split('.')
-        // console.log(fileArr[fileArr.length - 1])
-        if (fileArr[fileArr.length - 1] === 'csv') {
-          this.promiseArr.push(checkFileExists(`${path}/${files[index]}`));
+        const fileArr = files[index].split(".");
+        const filepath = `${path}/${files[index]}`;
+
+        if (fileArr[fileArr.length - 1] === "csv") {
+
+          if (!this.conditionObj[filepath]) {
+            myEmitter.emit("changed", filepath);
+            this.promiseArr.push(checkFileExists(filepath));
+          }
+
         }
-
-
-
-        // console.log(files[index]);
-        // this.conditionObj[`${path}/${files[index]}`] = checkFileExists(`${path}/${files[index]}`);
-        // this.conditionObj.push(checkFileExists(`${path}/${files[index]}`, this.conditionObj));
-        // this.conditionObj[`${path}/${files[index]}`] = checkFileExists(`${path}/${files[index]}`, this.conditionObj);
-        // fs.stat(`${path}/${files[index]}`, (err, stats) => {
-        //   // console.log(stats.mtime.getTime());
-        //   // console.log(files[index]);
-        //   this.conditionObj[`${path}/${files[index]}`] = stats.mtime.getTime()
-        // })
       }
 
-      Promise.all(this.promiseArr)
-        .then(reslut => {
-          console.log(reslut);
-        })
+      Promise.all(this.promiseArr).then(result => {
+        for (let item of result) {
+          // add new Item:
+          if (!this.conditionObj[item.path]) {
+            this.conditionObj[item.path] = item.mtime;
+          }
 
-      // console.log(this.conditionObj);
+          // check Item on mtime:
+          if (this.conditionObj[item.path] !== item.mtime) {
+            myEmitter.emit("changed", item.path);
+          }
+        }
+      });
     });
   }
 
@@ -62,12 +52,14 @@ class DirWatcher {
   }
 }
 
-function checkFileExists(path, conditionObj) {
+function checkFileExists(path) {
   return new Promise((resolve, reject) => {
     fs.stat(path, (err, stats) => {
-      // console.log(conditionObj)
-      // console.log(path)
-      resolve(stats.mtime.getTime());
+      
+      resolve({
+        path,
+        mtime: stats.mtime.getTime()
+      });
     });
   });
 }

@@ -5,8 +5,8 @@ class Importer {
     myEmitter.on("changed", this.importCSVFiles);
   }
 
-  importCSVFiles() {
-    console.log("import");
+  importCSVFiles(file) {
+    console.log(file);
   }
 }
 
