@@ -1,67 +1,61 @@
-const fs = require("fs");
 const myEmitter = require("./my-emitter");
+const myHelper = require("./my-helper");
+const config = require("./config");
 
 class DirWatcher {
-  constructor(path, delay) {
-    this.watch(path, delay);
-
+  constructor() {
     this.conditionObj = {};
-    this.promiseArr = [];
+
+    this._watch(config.path, config.delay);
   }
 
-  readDir(path) {
-    fs.readdir(path, (err, files) => {
-      if (err) {
+  _readDir(path) {
+    myHelper.readDir(path)
+      .then(files => {
+        //For future cleaning deleted items in the Object:
+        if (Object.keys(this.conditionObj).length) {
+          for (let prop in this.conditionObj) {
+            this.conditionObj[prop].exist = false;
+          }
+        }
+
+        return files;
+      })
+      .then(files => {
+        for (let file of files) {
+          const filePath = `${path}/${file}`;
+          if (!this.conditionObj[filePath]) {
+            myEmitter.emit("changed", filePath); 1
+          }
+
+          this.conditionObj[filePath] = {
+            name: file,
+            exist: true
+          };
+        };
+
+        this.objCleaner(this.conditionObj, 'exist');
+      })
+      .catch(err => {
         throw err;
-      }
-
-      for (var index in files) {
-        const fileArr = files[index].split(".");
-        const filepath = `${path}/${files[index]}`;
-
-        if (fileArr[fileArr.length - 1] === "csv") {
-
-          if (!this.conditionObj[filepath]) {
-            myEmitter.emit("changed", filepath);
-            this.promiseArr.push(checkFileExists(filepath));
-          }
-
-        }
-      }
-
-      Promise.all(this.promiseArr).then(result => {
-        for (let item of result) {
-          // add new Item:
-          if (!this.conditionObj[item.path]) {
-            this.conditionObj[item.path] = item.mtime;
-          }
-
-          // check Item on mtime:
-          if (this.conditionObj[item.path] !== item.mtime) {
-            myEmitter.emit("changed", item.path);
-          }
-        }
       });
-    });
   }
 
-  watch(path, delay) {
+  _watch(path, delay) {
     setInterval(() => {
-      this.readDir(path);
+      this._readDir(path);
     }, delay);
   }
-}
 
-function checkFileExists(path) {
-  return new Promise((resolve, reject) => {
-    fs.stat(path, (err, stats) => {
-      
-      resolve({
-        path,
-        mtime: stats.mtime.getTime()
-      });
-    });
-  });
+  objCleaner(Obj, checkingProperty) {
+    if (Object.keys(Obj).length) {
+      for (let prop in Obj) {
+        if (!Obj[prop][checkingProperty]) {
+          delete Obj[prop];
+        }
+      }
+    }
+  }
 }
 
 module.exports = DirWatcher;
