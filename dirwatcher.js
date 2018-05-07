@@ -25,7 +25,7 @@ class DirWatcher {
         for (let file of files) {
           const filePath = `${path}/${file}`;
           if (!this.conditionObj[filePath]) {
-            myEmitter.emit("changed", filePath); 1
+            myEmitter.emit("changed", filePath);
           }
 
           this.conditionObj[filePath] = {
