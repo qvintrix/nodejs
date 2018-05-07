@@ -8,9 +8,33 @@ class MyHelper {
 					reject(err);
 				}
 
-				resolve(this._filterFiles(files));
+				resolve(MyHelper._filterFiles(files));
 			});
 		});
+	}
+
+	static readFileAsync(path) {
+		return new Promise((resolve, reject) => {
+			fs.readFile(path, "utf8", (err, data) => {
+				if (err) {
+					reject(err);
+				}
+
+				const jsonObj = JSON.parse(JSON.stringify(data));
+
+				resolve(jsonObj);
+			});
+		});
+	}
+
+	static readFileSync(path) {
+		try {
+			const data = fs.readFileSync(path, 'utf8');
+			const jsonObj = JSON.parse(JSON.stringify(data));
+			return jsonObj;
+		} catch (err) {
+			throw err;
+		}
 	}
 
 	static _filterFiles(files) {

@@ -1,5 +1,6 @@
 const myEmitter = require("./my-emitter");
-const csvToJson = require('convert-csv-to-json');
+const fs = require("fs");
+const myHelper = require("./my-helper");
 
 class Importer {
   constructor() {
@@ -13,25 +14,18 @@ class Importer {
         .catch(error => {
           throw error;
         });
+
+      // Sync case:
+      // console.log(this._importSync(path));
     });
   }
 
   _importAsync(path) {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(csvToJson.getJsonFromCsv(path));
-      } catch (err) {
-        reject(err);
-      }
-    });
+    return myHelper.readFileAsync(path);
   }
 
   _importSync(path) {
-    try {
-      return csvToJson.getJsonFromCsv(path);
-    } catch (err) {
-      throw err;
-    }
+    return myHelper.readFileSync(path);
   }
 }
 

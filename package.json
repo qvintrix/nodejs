@@ -11,7 +11,5 @@
   "author": "Oleksii Korkh",
   "license": "ISC",
   "devDependencies": {},
-  "dependencies": {
-    "convert-csv-to-json": "0.0.13"
-  }
+  "dependencies": {}
 }
