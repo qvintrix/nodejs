@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 class MyHelper {
-	readDir(path) {
+	static readDir(path) {
 		return new Promise((resolve, reject) => {
 			fs.readdir(path, (err, files) => {
 				if (err) {
@@ -13,7 +13,7 @@ class MyHelper {
 		});
 	}
 
-	_filterFiles(files) {
+	static _filterFiles(files) {
 		return files.filter(file => {
 			const fileArr = file.split(".");
 
@@ -22,4 +22,4 @@ class MyHelper {
 	}
 }
 
-module.exports = new MyHelper();
+module.exports = MyHelper;
