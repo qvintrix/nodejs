@@ -1,4 +1,5 @@
 const fs = require("fs");
+const csvToJson = require('csvjson');
 
 class MyHelper {
 	static readDir(path) {
@@ -20,7 +21,8 @@ class MyHelper {
 					reject(err);
 				}
 
-				const jsonObj = JSON.parse(JSON.stringify(data));
+				const options = { delimiter : ',' };
+				const jsonObj = csvToJson.toObject(data, options);
 
 				resolve(jsonObj);
 			});
@@ -29,8 +31,9 @@ class MyHelper {
 
 	static readFileSync(path) {
 		try {
+			const options = { delimiter : ',' };
 			const data = fs.readFileSync(path, 'utf8');
-			const jsonObj = JSON.parse(JSON.stringify(data));
+			const jsonObj = csvToJson.toObject(data, options);
 			return jsonObj;
 		} catch (err) {
 			throw err;

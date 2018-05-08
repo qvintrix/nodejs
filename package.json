@@ -11,5 +11,7 @@
   "author": "Oleksii Korkh",
   "license": "ISC",
   "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "csvjson": "^5.0.0"
+  }
 }
