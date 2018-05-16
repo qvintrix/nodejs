@@ -1,37 +1,31 @@
 const program = require("commander");
-console.dir(program);
+const colors = require("colors");
 
-program
-  .option(
-    "-r, --reverse",
-    "reverse string data from process.stdin to process.stdout"
-  )
-  .option(
-    "-t, --transform",
-    "convert data from process.stdin to upper-cased data on process.stdout"
-  )
-  .option(
-    "-o, --outputFile",
-    "use fs.createReadStream() to pipe the given file provided by --file option to process.stdout"
-  )
-  .option(
-    "-cff, --convertFromFile",
-    "convert file provided by --file option from csv to json and output data to process.stdout"
-  )
-  .option(
-    "-ctf, --convertToFile",
-    "convert file provided by --file option from csv to json and output data to a result file with the same name but json extension. "
-  )
+program.option("-a, --action", "Actions").option("-f, --file", "File info");
+// error on unknown commands
+// program.on("option:reverse", function() {
+//   console.error(
+//     "Invalid command: %s\nSee --help for a list of available commands."
+//   );
+//   process.exit(1);
+// });
+
+program.on("--help", function() {
+  // Empty list of arguments:
+  if (!process.argv.slice(2).length) {
+    console.error("\n" + makeRedText("Wrong input data"));
+  }
+});
+program.parse(process.argv);
 
 // console.log(program);
 
+// Empty list of arguments:
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+}
 
-program.on('--help', function(){
-	console.log('');
-  });
-  program.parse(process.argv);
-
-if (program.reverse) reverse();
+// if (program.reverse) reverse();
 
 function reverse(str) {
   console.log("reverse");
@@ -47,4 +41,8 @@ function convertFromFile(filePath) {
 }
 function convertToFile(filePath) {
   console.log("convertToFile");
+}
+
+function makeRedText(txt) {
+  return colors.red(txt);
 }
