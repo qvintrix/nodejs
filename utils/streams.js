@@ -1,7 +1,10 @@
 const program = require("commander");
 const colors = require("colors");
 
-program.option("-a, --action", "Actions").option("-f, --file", "File info");
+program
+  .option("-a, --action", "Actions")
+  .option("-f, --file", "File info")
+  .option("-p, --path", "Extra 'Path' parameter");
 // error on unknown commands
 // program.on("option:reverse", function() {
 //   console.error(
@@ -10,7 +13,13 @@ program.option("-a, --action", "Actions").option("-f, --file", "File info");
 //   process.exit(1);
 // });
 
-program.on("--help", function() {
+var temp = process.argv.slice(2);
+// console.log(temp[0]);
+if (temp[0] === '--help' || temp[0] === '-h') {
+  program.outputHelp();
+}
+
+program.on("--help", function () {
   // Empty list of arguments:
   if (!process.argv.slice(2).length) {
     console.error("\n" + makeRedText("Wrong input data"));
@@ -25,11 +34,16 @@ if (!process.argv.slice(2).length) {
   program.outputHelp();
 }
 
-// if (program.reverse) reverse();
+if (program.file) reverse();
 
 function reverse(str) {
+  // const tempArr = str.split('');
+  // const reversedArr = tempArr.reverse();
   console.log("reverse");
+  // return reversedArr.join('');
 }
+
+
 function transform(str) {
   console.log("transform");
 }
