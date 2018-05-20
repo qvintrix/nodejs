@@ -1,60 +1,58 @@
-const program = require("commander");
 const colors = require("colors");
+const actions = require('./actions');
+const argv = require("yargs")
+  .option('action', {
+    alias: "a",
+    describe: "Actions",
+    demandOption: true
+  })
+  .option('file', {
+    alias: "f",
+    describe: "File path",
+  })
+  .alias('h', 'help')
+  .alias('v', 'version')
+  .help('help')
+  .usage('Usage: $0 -a [action] [options]')
+  .argv;
 
-program
-  .option("-a, --action", "Actions")
-  .option("-f, --file", "File info")
-  .option("-p, --path", "Extra 'Path' parameter");
-// error on unknown commands
-// program.on("option:reverse", function() {
-//   console.error(
-//     "Invalid command: %s\nSee --help for a list of available commands."
-//   );
-//   process.exit(1);
-// });
+const action = argv.action;
+console.log(argv);
+// console.log(argv._[0]);
 
-var temp = process.argv.slice(2);
-// console.log(temp[0]);
-if (temp[0] === '--help' || temp[0] === '-h') {
-  program.outputHelp();
-}
-
-program.on("--help", function () {
-  // Empty list of arguments:
-  if (!process.argv.slice(2).length) {
-    console.error("\n" + makeRedText("Wrong input data"));
-  }
-});
-program.parse(process.argv);
-
-// console.log(program);
-
-// Empty list of arguments:
-if (!process.argv.slice(2).length) {
-  program.outputHelp();
-}
-
-if (program.file) reverse();
-
-function reverse(str) {
-  // const tempArr = str.split('');
-  // const reversedArr = tempArr.reverse();
-  console.log("reverse");
-  // return reversedArr.join('');
-}
-
-
-function transform(str) {
-  console.log("transform");
-}
-function outputFile(filePath) {
-  console.log("outputFile");
-}
-function convertFromFile(filePath) {
-  console.log("convertFromFile");
-}
-function convertToFile(filePath) {
-  console.log("convertToFile");
+switch (action) {
+  case 'reverse':
+    if (!argv._[0]) {
+      console.log('string should be set');
+      return;
+    }
+    actions.reverse(
+      argv._[0]);
+    break;
+  case 'transform':
+    if (!argv._[0]) {
+      console.log('string should be set');
+      return;
+    }
+    actions.transform(
+      argv._[0]);
+    break;
+  case 'outputFile':
+    actions.outputFile(
+      argv.file);
+    break;
+  case 'convertFromFile':
+    actions.convertFromFile(
+      argv.file);
+    break;
+  case 'convertToFile':
+    actions.convertToFile(
+      argv.file);
+    break;
+  case 'cssBundler':
+    actions.cssBundler(
+      argv.path);
+    break;
 }
 
 function makeRedText(txt) {

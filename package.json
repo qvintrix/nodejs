@@ -12,6 +12,7 @@
   "devDependencies": {},
   "dependencies": {
     "colors": "^1.2.5",
-    "commander": "^2.15.1"
+    "through2": "^2.0.3",
+    "yargs": "^11.0.0"
   }
 }
