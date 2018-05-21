@@ -18,7 +18,9 @@ const argv = require("yargs")
   .alias("h", "help")
   .alias("v", "version")
   .help("help")
-  .usage("Usage: $0 -a [action] [options]").argv;
+  .usage("Usage: $0 -a [action] [options]")
+  .argv;
+
 
 checkAction(argv.action, argv);
 
@@ -26,15 +28,21 @@ function checkAction(action, argv) {
   switch (action) {
     case "reverse":
       if (!argv._[0]) {
-        throw Error(MyHelper.makeRedText("Argument is invalid"));
+        throw Error(myHelper.makeRedText("Argument is invalid"));
       }
       actions.reverse(argv._[0]);
       break;
+    case 'reverseWithStdin':
+      actions.reverseWithStdin();
+      break;
     case "transform":
       if (!argv._[0]) {
-        throw Error(MyHelper.makeRedText("Argument is invalid"));
+        throw Error(myHelper.makeRedText("Argument is invalid"));
       }
       actions.transform(argv._[0]);
+      break;
+    case 'transformWithStdin':
+      actions.transformWithStdin();
       break;
     case "outputFile":
       actions.outputFile(argv.file);

@@ -6,13 +6,44 @@ const myHelper = require("./my-helper");
 
 class Actions {
   static reverse(str) {
-    const tempArr = str.split("");
-    const reversedArr = tempArr.reverse();
-    process.stdout.write(reversedArr.join(""));
+    const reversed = str
+      .toString()
+      .split("")
+      .reverse()
+      .join("");
+    process.stdout.write(reversed);
+  }
+
+  static reverseWithStdin() {
+    const stream = through2({ objectMode: true }, (chunk, enc, callback) => {
+      const reversed = chunk
+        .toString()
+        .split("")
+        .reverse()
+        .join("");
+      callback(null, reversed);
+    });
+
+
+    process.stdin
+      .pipe(stream)
+      .pipe(process.stdout)
   }
 
   static transform(str) {
     process.stdout.write(str.toUpperCase());
+  }
+
+  static transformWithStdin() {
+    const stream = through2({ objectMode: true }, (chunk, enc, callback) => {
+      const string = chunk.toString();
+      const result = string.toUpperCase();
+      callback(null, result);
+    });
+
+    process.stdin
+      .pipe(stream)
+      .pipe(process.stdout)
   }
 
   static outputFile(filePath) {
@@ -54,6 +85,13 @@ class Actions {
 
     myHelper.readDir(filePath).then(files => {
       const writeStream = fs.createWriteStream(bundlePathCss);
+      const specialFileIndex = files.indexOf("nodejs-homework3.css");
+      const lastIndexItem = files.length - 1;
+
+      if (lastIndexItem !== specialFileIndex) {
+        const cuted = files.splice(specialFileIndex, 1);
+        files = files.concat(cuted);
+      }
 
       for (let file of files) {
         const cssPath = path.join(filePath, file);
