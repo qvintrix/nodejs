@@ -28,7 +28,8 @@ function checkAction(action, argv) {
   switch (action) {
     case "reverse":
       if (!argv._[0]) {
-        throw Error(myHelper.makeRedText("Argument is invalid"));
+        console.log(myHelper.makeRedText("Argument is invalid"));
+        process.exit(1);
       }
       actions.reverse(argv._[0]);
       break;
@@ -37,8 +38,9 @@ function checkAction(action, argv) {
       break;
     case "transform":
       if (!argv._[0]) {
-        throw Error(myHelper.makeRedText("Argument is invalid"));
-      }
+        console.log(myHelper.makeRedText("Argument is invalid"));
+        process.exit(1);
+      };
       actions.transform(argv._[0]);
       break;
     case 'transformWithStdin':
