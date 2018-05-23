@@ -47,7 +47,12 @@ class Actions {
   }
 
   static outputFile(filePath) {
-    fs.createReadStream(filePath).pipe(process.stdout);
+    fs.createReadStream(filePath)
+      .on('error', (err) => {
+        console.log('error:' + err);
+        process.exit(1);
+      })
+      .pipe(process.stdout);
   }
 
   static convertFromFile(filePath) {
@@ -55,8 +60,11 @@ class Actions {
     const toObject = stream.toObject({ delimiter: ";" });
     const stringify = stream.stringify();
 
-    fs
-      .createReadStream(filePath)
+    fs.createReadStream(filePath)
+      .on('error', (err) => {
+        console.log('error:' + err);
+        process.exit(1);
+      })
       .pipe(toObject)
       .pipe(stringify)
       .pipe(process.stdout);
@@ -75,6 +83,10 @@ class Actions {
 
     fs
       .createReadStream(filePath)
+      .on('error', (err) => {
+        console.log('error:' + err);
+        process.exit(1);
+      })
       .pipe(toObject)
       .pipe(stringify)
       .pipe(writeStream);
@@ -95,7 +107,12 @@ class Actions {
 
       for (let file of files) {
         const cssPath = path.join(filePath, file);
-        fs.createReadStream(cssPath).pipe(writeStream);
+        fs.createReadStream(cssPath)
+          .on('error', (err) => {
+            console.log('error:' + err);
+            process.exit(1);
+          })
+          .pipe(writeStream);
       }
     });
   }
