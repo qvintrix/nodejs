@@ -4,6 +4,12 @@ server
   .createServer()
 
   .on("request", (req, res) => {
+    req.on("error", err => {
+      console.log("error:" + err);
+      response.statusCode = 404;
+      response.end();
+    });
+
     res.setHeader("Content-Type", "application/json");
 
     const product = {
