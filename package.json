@@ -4,8 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "",
-    "start": "node ./app.js"
+    "start": "node ./index.js",
+    "html-server": "node ./http-servers/html-server.js",
+    "json-server": "node ./http-servers/json-server.js",
+    "plain-text-server": "node ./http-servers/plain-text-server.js"
   },
   "author": "Oleksii Korkh",
   "license": "ISC",
