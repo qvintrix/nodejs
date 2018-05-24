@@ -1,28 +1,16 @@
 {
-  "name": "homework_1",
+  "name": "homework_4",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "test": "",
-    "babel-node": "babel-node --presets=env",
-    "start": "nodemon --exec npm run babel-node -- ./app.js"
+    "start": "node ./app.js"
   },
   "author": "Oleksii Korkh",
   "license": "ISC",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-latest": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "babel-register": "^6.26.0",
-    "nodemon": "^1.17.3"
-  },
-  "dependencies": {},
-  "babel": {
-    "presets": [
-      "env"
-    ]
+  "devDependencies": {},
+  "dependencies": {
+    "express": "^4.16.3"
   }
 }
