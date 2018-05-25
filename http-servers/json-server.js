@@ -6,8 +6,8 @@ server
   .on("request", (req, res) => {
     req.on("error", err => {
       console.log("error:" + err);
-      response.statusCode = 404;
-      response.end();
+      res.statusCode = 404;
+      res.end();
     });
 
     res.setHeader("Content-Type", "application/json");

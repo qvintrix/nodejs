@@ -6,8 +6,8 @@ server
     
     req.on("error", err => {
       console.log("error:" + err);
-      response.statusCode = 404;
-      response.end();
+      res.statusCode = 404;
+      res.end();
     });
 
     res.writeHead(200, { "Content-Type": "text/plain" });
