@@ -1,6 +1,7 @@
 const server = require("http");
 const fs = require("fs");
 const path = require("path");
+const port = process.env.PORT || 3000;
 
 server
   .createServer()
@@ -28,4 +29,6 @@ server
         res.end();
       });
   })
-  .listen(3000);
+  .listen(port, () => {
+    console.log(`App listening on port ${port}!`)
+  });

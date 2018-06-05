@@ -1,18 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const users = require("../models/users.json");
-const errorHandler = require("../middlewares/error-handler");
-const queryParser = require("../middlewares/query-parser");
-const cookieParser = require("../middlewares/cookie-parser");
+const UsersController = require("../сontrollers/users.controller");
 
 router
-  .get("/", (req, res, next) => {
-    next();
-    res.json(users);
-  })
-
-  .use(cookieParser)
-  .use(queryParser)
-  .use(errorHandler);
+  .get("/", UsersController.getUsers);
 
 module.exports = router;
