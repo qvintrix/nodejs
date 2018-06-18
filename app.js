@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
+const passport = require('passport');
+const session = require('express-session');
 
+const configAuth = require('./config/auth');
 const routes = require("./routes");
 const authRoute = require('./routes/auth');
 
@@ -13,6 +16,11 @@ app
 	.use(cookieParser)
 	.use(queryParser)
 	.use(errorHandler)
+
+	.use(session({ secret: configAuth.secretKey }))
+	.use(passport.initialize())
+	.use(passport.session())
+
 	.use("/api", routes)
 	.use("/auth", authRoute);
 

@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const validateSchema = require('../helpers/auth-validator');
-
-var jwt = require('jsonwebtoken');
-
-const existingUser = {
-	username: 'user',
-	email: 'user@gmail.com',
-	password: 12345
-}
+const config = require('../config/application.json');
+const existingUser = require('../models/mock-user');
+const jwt = require('jsonwebtoken');
+const passport = require('../config/passport');
 
 router
 	.post("/", validateSchema('existing-user'), (req, res, next) => {
@@ -16,8 +12,8 @@ router
 
 		if (credentials.login !== existingUser.username
 			|| credentials.password !== existingUser.password) {
-			res.status(404).send({
-				code: 404,
+			res.status(401).send({
+				code: 401,
 				success: false,
 				message: 'bad username/password combination'
 			});
@@ -25,7 +21,7 @@ router
 		}
 
 		const payload = { 'email': existingUser.email };
-		const token = jwt.sign(payload, 'secret', { expiresIn: 10 });
+		const token = jwt.sign(payload, config.secret, { expiresIn: 10 });
 		res.send({
 			code: 200,
 			message: "OK",
@@ -37,6 +33,42 @@ router
 			},
 			token
 		});
-	});
+	})
+
+	.get('/twitter', passport.authenticate('twitter'))
+
+	.get('/twitter/callback',
+		passport.authenticate('twitter'), (req, res) => {
+			console.log(req);
+			// Successful authentication
+			res.send();
+		})
+
+	.get('/facebook', passport.authenticate('facebook'))
+
+	.get('/facebook/callback',
+		passport.authenticate('facebook'), (req, res) => {
+			console.log(req);
+			// Successful authentication
+			res.send();
+		})
+
+	.get('/google',
+		passport.authenticate('google', { scope: ['profile'] }))
+
+	.get('/google/callback',
+		passport.authenticate('google'),
+		(req, res) => {
+			// Successful authentication, redirect home.
+			console.log(req);
+			// Successful authentication
+			res.send();
+		})
+
+	.post('/login',
+		passport.authenticate('local'),
+		(req, res) => {
+			res.send(req.user);
+		});
 
 module.exports = router;
