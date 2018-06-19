@@ -29,7 +29,7 @@ router
     // Successful authentication, redirect home.
     console.log(req);
     // Successful authentication
-    res.send();
+    res.redirect('/servey')
   })
 
   .post("/login", passport.authenticate("local"), (req, res) => {
