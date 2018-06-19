@@ -1,6 +1,6 @@
 const FacebookStrategy = require('passport-facebook').Strategy;
 const existingUser = require('../models/mock-user');
-const configAuth = require('./auth');
+const configAuth = require('../config/auth');
 
 module.exports = new FacebookStrategy({
 

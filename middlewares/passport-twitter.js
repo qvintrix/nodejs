@@ -1,5 +1,5 @@
 const TwitterStrategy = require('passport-twitter').Strategy;
-const configAuth = require('./auth');
+const configAuth = require('../config/auth');
 const existingUser = require('../models/mock-user');
 
 module.exports = new TwitterStrategy({

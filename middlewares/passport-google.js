@@ -1,6 +1,6 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const existingUser = require('../models/mock-user');
-const configAuth = require('./auth');
+const configAuth = require('../config/auth');
 
 module.exports = new GoogleStrategy({
 
