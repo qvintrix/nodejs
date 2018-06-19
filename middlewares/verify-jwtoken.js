@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
   if (token) {
     jwt.verify(token, authConfig.secretKey, err => {
       if (err) {
-        res.json({
+        res.status(401).json({
           success: false,
           message: err.message
         });

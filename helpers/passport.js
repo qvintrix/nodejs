@@ -1,8 +1,8 @@
 const passport = require("passport");
-const twitterStrategy = require("./passport-twitter");
-const facebookStrategy = require("./passport-facebook");
-const localStrategy = require("./passport-local");
-const googleStrategy = require("./passport-google");
+const twitterStrategy = require("../middlewares/passport-twitter");
+const facebookStrategy = require("../middlewares/passport-facebook");
+const localStrategy = require("../middlewares/passport-local");
+const googleStrategy = require("../middlewares/passport-google");
 
 const existingUser = require("../models/mock-user");
 

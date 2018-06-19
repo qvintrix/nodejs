@@ -9,7 +9,7 @@ module.exports = {
   twitterAuth: {
     consumerKey: "BpnRXi5EVQe8eSwZoMFfa64gt",
     consumerSecret: "kSXNQ49rTRnFlj50VPb60e3kdFAOhiP91MIHQEeFnplKDsfzKR",
-    callbackURL: "http://localhost:8080/auth/twitter/callback"
+    callbackURL: "http://127.0.0.1:8080/auth/twitter/callback"
   },
 
   googleAuth: {
