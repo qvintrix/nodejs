@@ -12,5 +12,6 @@ module.exports = new GoogleStrategy({
 	(token, refreshToken, profile, cb) => {
 
 		console.log(profile);
+		
 		return cb(null, existingUser);
 	})

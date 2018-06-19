@@ -12,5 +12,6 @@ module.exports = new TwitterStrategy({
 	(token, tokenSecret, profile, cb) => {
 
 		console.log(profile);
+		
 		return cb(null, existingUser);
 	})
