@@ -4,6 +4,11 @@
 
 run `npm i` from root directory
 
-## How to run main server on Express
+## How to run main server:
 
-run `npm start` from root directory
+npm run dbcreate
+npm run dbmigrate
+npm run dbseed
+npm run start
+
+from root directory
