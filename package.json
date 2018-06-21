@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node ./index.js",
-    "html-server": "node ./http-servers/html-server.js",
-    "json-server": "node ./http-servers/json-server.js",
-    "plain-text-server": "node ./http-servers/plain-text-server.js"
+    "dbcreate": "node_modules/.bin/sequelize db:create",
+    "dbmigrate": "node_modules/.bin/sequelize db:migrate",
+    "dbseed": "node_modules/.bin/sequelize db:seed:all"
   },
   "author": "Oleksii Korkh",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "pg": "^7.4.3",
     "sequelize": "^4.38.0",
     "sequelize-cli": "^4.0.0"
   }
