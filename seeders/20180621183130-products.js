@@ -1,7 +1,7 @@
 'use strict';
 
-const { Product } = require('../models');
-const products = require('../server/models/products.mock.json');
+const { Product } = require('../server/models');
+const products = require('../server/models/mock-data/products.mock.json');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

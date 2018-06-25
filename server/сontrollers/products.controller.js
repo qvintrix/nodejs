@@ -1,13 +1,9 @@
-const { Product } = require('../../models');
+const { Product } = require('../models');
 
 class ProductsController {
 
 	static getProducts(req, res, next) {
 		Product.findAll().then(products => {
-			if (!products) {
-				return next(new Error("Products are empty"));
-			}
-
 			res.status(200).json(products);
 		});
 	}
@@ -21,20 +17,26 @@ class ProductsController {
 			if (product) {
 				res.status(200).json(product);
 			} else {
-				return next(new Error("Product with such ID is missing"));
+				res.sendStatus(404);
 			}
+		})
+		.catch(error => {
+			next(new Error(error.message));
 		});
 	}
 
 	static insertProduct(req, res, next) {
 		if (!req.body) {
-			return next(new Error("Did not pass any data for creating new product"));
+			res.status(400).json({ error: 'validation error' });
 		}
 
 		Product.create({
 			name: req.body.name
 		}).then(product => {
 			res.status(200).json(product);
+		})
+		.catch(error => {
+			next(new Error(error.message));
 		});
 	}
 

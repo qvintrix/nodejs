@@ -1,7 +1,7 @@
 'use strict';
 
-const { User } = require('../models');
-const users = require('../server/models/users.mock.json');
+const { User } = require('../server/models');
+const users = require('../server/models/mock-data/users.mock.json');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
