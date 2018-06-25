@@ -5,6 +5,9 @@ class ProductsController {
 	static getProducts(req, res, next) {
 		Product.findAll().then(products => {
 			res.status(200).json(products);
+		})
+		.catch(error => {
+			next(new Error(error.message));
 		});
 	}
 
