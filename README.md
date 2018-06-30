@@ -1,21 +1,11 @@
-# HomeWork 4
+# HomeWork 7
+
 
 ## How to set up project
 
-run `npm i` from root directory
 
-## How to run plain-text-server
+- Start a terminal for your mongo server.
+- Go to <mongodb-install-directory>/bin directory.
+- Run the command. ./mongod.
 
-run `npm plain-text-server` from root directory
-
-## How to run json-server
-
-run `npm json-server` from root directory
-
-## How to run html-server
-
-run `npm html-server` from root directory
-
-## How to run main server on Express
-
-run `npm start` from root directory
+- run `npm i` from root directory
