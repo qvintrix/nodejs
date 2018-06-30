@@ -1,46 +1,52 @@
-const products = require("../models/products.json");
+const Product = require('../models/product');
 
 class ProductsController {
 
 	static getProducts(req, res, next) {
-		if (!products) {
-			return next(new Error("Products are empty"));
-		}
+		Product.find((err, products) => {
+			if (err) next(new Error(err.message));
 
-		res.status(200).json(products);
+			res.status(200).json(products);
+		});
 	}
 
 	static getProduct(req, res, next) {
-		const productId = req.params.id;
+		Product.findOne({ _id: req.params.id }, (err, product) => {
+			if (err) next(new Error(err.message));
 
-		if (!products[productId]) {
-			return next(new Error("Product with such ID is missing"));
-		}
-
-		res.status(200).json(products[productId]);
-	}
-
-	static getProductReviews(req, res, next) {
-		const productId = req.params.id;
-
-		if (!products[productId]) {
-			return next(new Error("Product with such ID is missing"));
-		}
-		res.status(200).json(products[productId].reviews);
+			if (product) {
+				res.status(200).json(product);
+			} else {
+				res.sendStatus(404);
+			}
+		});
 	}
 
 	static insertProduct(req, res, next) {
 		if (!req.body) {
-			return next(new Error("Did not pass any data for creating new product"));
+			res.status(400).json({ error: 'validation error' });
 		}
 
-		const newProduct = {
-			name: req.body.name,
-			reviews: req.body.reviews
-		};
-		res.status(200).send(newProduct);
+		const product = new Product({ name: req.body.name });
+
+		product.save((err, product) => {
+			if (err) next(new Error(err.message));
+
+			res.status(200).json(product);
+		});
 	}
 
+	static removeProduct(req, res, next) {
+		Product.findByIdAndRemove(req.params.id, (err, product) => {
+			if (err) next(new Error(err.message));
+
+			if (product) {
+				res.sendStatus(200);
+			} else {
+				res.sendStatus(404);
+			}
+		});
+	}
 }
 
 module.exports = ProductsController;

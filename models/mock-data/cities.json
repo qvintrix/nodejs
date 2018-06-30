@@ -1,0 +1,47 @@
+[
+	{
+		"name": "Brest",
+		"country": "Belarus",
+		"capital": false,
+		"location": {
+			"lat": 52.097621,
+			"long": 23.734050
+		}
+	},
+	{
+		"name": "Dnepr",
+		"country": "Ukraine",
+		"capital": false,
+		"location": {
+			"lat": 48.4647,
+			"long": 35.0462
+		}
+	},
+	{
+		"name": "Kharkiv",
+		"country": "Ukraine",
+		"capital": false,
+		"location": {
+			"lat": 49.9935,
+			"long": 36.2304
+		}
+	},
+	{
+		"name": "Odessa",
+		"country": "Ukraine",
+		"capital": false,
+		"location": {
+			"lat": 46.4825,
+			"long": 30.7233
+		}
+	},
+	{
+		"name": "Kiev",
+		"country": "Ukraine",
+		"capital": true,
+		"location": {
+			"lat": 50.4501,
+			"long": 30.5234
+		}
+	}
+]
