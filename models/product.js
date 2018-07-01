@@ -17,10 +17,6 @@ productSchema.statics.initMockData = function () {
 	})
 }
 
-productSchema.methods.addLastModifiedDate = function () {
-
-}
-
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
