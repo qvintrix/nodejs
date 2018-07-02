@@ -5,7 +5,7 @@ class UsersController {
 
 	static getUsers(req, res, next) {
 		User.find((err, users) => {
-			if (err) next(new Error(err.message));
+			if (err) return next(err);
 
 			res.status(200).json(users);
 		});
@@ -13,7 +13,7 @@ class UsersController {
 
 	static removeUser(req, res, next) {
 		User.findByIdAndRemove(req.params.id, (err, user) => {
-			if (err) next(new Error(err.message));
+			if (err) return next(err);
 
 			if (user) {
 				res.sendStatus(200);

@@ -3,7 +3,7 @@ const app = express();
 const routes = require("./routes");
 
 const errorHandler = require("./middlewares/error-handler");
-require("./models/index");
+require("./models/index")(app);
 
 app
 	.use(express.json())

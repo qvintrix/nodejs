@@ -4,7 +4,7 @@ class ProductsController {
 
 	static getProducts(req, res, next) {
 		Product.find((err, products) => {
-			if (err) next(new Error(err.message));
+			if (err) return next(err);
 
 			res.status(200).json(products);
 		});
@@ -12,7 +12,7 @@ class ProductsController {
 
 	static getProduct(req, res, next) {
 		Product.findOne({ _id: req.params.id }, (err, product) => {
-			if (err) next(new Error(err.message));
+			if (err) return next(err);
 
 			if (product) {
 				res.status(200).json(product);
@@ -30,7 +30,7 @@ class ProductsController {
 		const product = new Product({ name: req.body.name });
 
 		product.save((err, product) => {
-			if (err) next(new Error(err.message));
+			if (err) return next(err);
 
 			res.status(200).json(product);
 		});
@@ -38,7 +38,7 @@ class ProductsController {
 
 	static removeProduct(req, res, next) {
 		Product.findByIdAndRemove(req.params.id, (err, product) => {
-			if (err) next(new Error(err.message));
+			if (err) return next(err);
 
 			if (product) {
 				res.sendStatus(200);
