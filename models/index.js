@@ -4,25 +4,24 @@ const user = require('./user');
 const product = require('./product');
 const config = require('../config/config');
 
-// mongoose.connect(`${config.dbConnection}/${config.dbName}`);
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', () => {
-// 	console.log('DB success run');
-
-// 	city.initMockData();
-// 	user.initMockData();
-// 	product.initMockData();
-// });
-
-// module.exports = db;
-
-//implementation of native driver:
 
 const { MongoClient } = require('mongodb');
 const cities = require('./mock-data/cities.json');
 
 module.exports = app => {
+	mongoose.connect(`${config.dbConnection}/${config.dbName}`);
+	const db = mongoose.connection;
+	db.on('error', console.error.bind(console, 'connection error:'));
+	db.once('open', () => {
+		console.log('DB success run');
+		
+		city.initMockData();
+		user.initMockData();
+		product.initMockData();
+	});
+	
+	//implementation of native driver:
+
 	MongoClient.connect(config.dbConnection, {})
 		.then(client => {
 			console.log('DB success run');
