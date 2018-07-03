@@ -4,7 +4,9 @@ const user = require("./user");
 const product = require("./product");
 const config = require("../config/config");
 
-mongoose.connect(`${config.dbConnection}/${config.dbName}`);
+mongoose.connect(`${config.dbConnection}/${config.dbName}`, err => {
+    if (err) throw err;
+});
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
