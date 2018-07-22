@@ -7,7 +7,6 @@ router
 	.get("/random", CitiesController.getRandomCity)
 	.delete("/:id", CitiesController.removeCity)
 	.post("/", CitiesController.insertCity)
-	.put("/:id", CitiesController.insertUpdateCity)
-	.get('/nativeRandom', CitiesController.nativeRandom);
+	.put("/:id", CitiesController.insertUpdateCity);
 
 module.exports = router;

@@ -1,0 +1,262 @@
+---
+swagger: "2.0"
+info:
+  description: Simple API
+  version: 1.0.0
+  title: HomeWork8
+host: localhost:8080
+basePath: /
+tags:
+- name: products
+  description: Products methods
+- name: users
+  description: Users methods
+schemes:
+- http
+paths:
+  /products:
+    get:
+      tags:
+      - products
+      summary: Returns all products
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: fetched products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+          responseSchema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        500:
+          description: database error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+    post:
+      tags:
+      - products
+      summary: Add product
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: product
+        description: Add product item
+        required: false
+        schema:
+          $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: returns added product item
+          schema:
+            $ref: '#/definitions/Product'
+          responseSchema:
+            $ref: '#/definitions/Product'
+        500:
+          description: database error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+  /products/{id}:
+    get:
+      tags:
+      - products
+      summary: Returns project by id
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Product's identifier
+        required: true
+        type: string
+      responses:
+        200:
+          description: return found item
+          schema:
+            $ref: '#/definitions/Product'
+          responseSchema:
+            $ref: '#/definitions/Product'
+        404:
+          description: item wasn't found
+        500:
+          description: database error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+    delete:
+      tags:
+      - products
+      summary: Delete product by id
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Product's identifier
+        required: true
+        type: string
+      responses:
+        200:
+          description: delete product by id
+          schema:
+            $ref: '#/definitions/Product'
+          responseSchema:
+            $ref: '#/definitions/Product'
+        404:
+          description: product wasn't found
+        500:
+          description: database error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+  /users:
+    get:
+      tags:
+      - users
+      summary: Returns all users
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: fetched users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+          responseSchema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        500:
+          description: database error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+  /users/{id}:
+    delete:
+      tags:
+      - users
+      summary: Delete user by id
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: User's identifier
+        required: true
+        type: string
+      responses:
+        200:
+          description: delete user by id
+          schema:
+            $ref: '#/definitions/User'
+          responseSchema:
+            $ref: '#/definitions/User'
+        404:
+          description: user wasn't found
+        500:
+          description: database error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+definitions:
+  Product:
+    type: object
+    required:
+    - name
+    properties:
+      _id:
+        type: string
+        format: uuid
+        example: 5b4de63ca37ef415b7d0206f
+      name:
+        type: string
+        example: Beer
+      __v:
+        type: string
+        format: int
+        example: "0"
+    example:
+      __v: "0"
+      name: Beer
+      _id: 5b4de63ca37ef415b7d0206f
+  User:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: uuid
+        example: 5b4de63ca37ef415b7d0206f
+      firstName:
+        type: string
+        example: user's firstName
+      surName:
+        type: string
+        example: user's surName
+      __v:
+        type: string
+        format: int
+        example: "0"
+    example:
+      firstName: user's firstName
+      surName: user's surName
+      __v: "0"
+      _id: 5b4de63ca37ef415b7d0206f
+  inline_response_500:
+    properties:
+      error:
+        type: string
+        example: Client is not connected to the database.
+responses:
+  DBError:
+    description: database error
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Client is not connected to the database.
+    responseSchema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Client is not connected to the database.

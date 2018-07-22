@@ -1,5 +1,4 @@
 const City = require('../models/city');
-const nativeDbConnection = require('../models/native-connection');
 
 class CityController {
 
@@ -60,22 +59,6 @@ class CityController {
 
 			res.status(200).json(city);
 		});
-	}
-
-	static nativeRandom(req, res) {
-		nativeDbConnection.then(db => {
-			let result = db.cities.aggregate([
-			{ $sample: { size: 1 } }
-		]);
-		
-		result.toArray((error, items) => {
-			if (error) {
-				return res.sendStatus(500);
-			}
-			res.status(200).json(items);
-		});
-		})
-		
 	}
 }
 
