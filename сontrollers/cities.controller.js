@@ -6,7 +6,16 @@ class CityController {
 		City.find((err, cities) => {
 			if (err) return next(err);
 
-			res.status(200).json(cities);
+			res.status(200).json(cities.map(city => ({
+				_id: city._id,
+				name: city.firstName,
+				country: city.surName,
+				capital: city.capital,
+				location: {
+					lat: city.location.lat,
+					long: city.location.long
+				}
+			})));
 		});
 	}
 
@@ -17,7 +26,15 @@ class CityController {
 				if (err) return next(err);
 
 				if (city) {
-					res.status(200).json(city);
+					res.status(200).json({
+						location: {
+							lat: city.location.lat,
+							long: city.location.long
+						},
+						name: city.name,
+						country: city.country,
+						capital: city.capital
+					});
 				} else {
 					res.sendStatus(404);
 				}
@@ -57,7 +74,15 @@ class CityController {
 		city.save((err, city) => {
 			if (err) return next(err);
 
-			res.status(200).json(city);
+			res.status(200).json({
+				location: {
+					lat: city.location.lat,
+					long: city.location.long
+				},
+				name: city.name,
+				country: city.country,
+				capital: city.capital
+			});
 		});
 	}
 }

@@ -11,6 +11,8 @@ tags:
   description: Products methods
 - name: users
   description: Users methods
+- name: cities
+  description: Cities methods
 schemes:
 - http
 paths:
@@ -18,7 +20,7 @@ paths:
     get:
       tags:
       - products
-      summary: Returns all products
+      summary: Return all products
       produces:
       - application/json
       parameters: []
@@ -34,7 +36,7 @@ paths:
             items:
               $ref: '#/definitions/Product'
         500:
-          description: database error
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/inline_response_500'
           responseSchema:
@@ -55,10 +57,13 @@ paths:
         description: Add product item
         required: false
         schema:
-          $ref: '#/definitions/Product'
+          properties:
+              name:
+                type: string
+                example: Nuts.
       responses:
         200:
-          description: returns added product item
+          description: return added product item
           schema:
             $ref: '#/definitions/Product'
           responseSchema:
@@ -77,7 +82,7 @@ paths:
     get:
       tags:
       - products
-      summary: Returns project by id
+      summary: Return project by id
       produces:
       - application/json
       parameters:
@@ -95,6 +100,8 @@ paths:
             $ref: '#/definitions/Product'
         404:
           description: item wasn't found
+          schema:
+            $ref: '#/definitions/inline_response_404'
         500:
           description: database error
           schema:
@@ -121,11 +128,15 @@ paths:
         200:
           description: delete product by id
           schema:
-            $ref: '#/definitions/Product'
+            type: string
+            example: OK.
           responseSchema:
-            $ref: '#/definitions/Product'
+            type: string
+            example: OK.
         404:
           description: product wasn't found
+          schema:
+            $ref: '#/definitions/inline_response_404'
         500:
           description: database error
           schema:
@@ -140,7 +151,7 @@ paths:
     get:
       tags:
       - users
-      summary: Returns all users
+      summary: Return all users
       produces:
       - application/json
       parameters: []
@@ -180,15 +191,167 @@ paths:
         type: string
       responses:
         200:
-          description: delete user by id
+          description: delete product by id
           schema:
-            $ref: '#/definitions/User'
+            type: string
+            example: OK.
           responseSchema:
-            $ref: '#/definitions/User'
+            type: string
+            example: OK.
         404:
           description: user wasn't found
+          schema:
+            $ref: '#/definitions/inline_response_404'
         500:
           description: database error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+  /cities:
+    get:
+      tags:
+      - cities
+      summary: Return all cities
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: fetched cities
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+          responseSchema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+    post:
+      tags:
+      - cities
+      summary: Add city
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Brest
+        country: Belarus
+        capital: false
+        location:
+          lat: 52.097621
+          long: 23.73405
+        description: Add city item
+        required: false
+        schema:
+          properties:
+            name:
+              type: string
+              example: Brest
+            country:
+              type: string
+              example: Belarus
+            capital:
+              type: boolean
+              example: false
+            location:
+              type: object
+              properties:
+                lat:
+                  type: number
+                  example: 52.097621
+                long:
+                  type: number
+                  example: 23.73405
+              
+      responses:
+        200:
+          description: return added product item
+          schema:
+            $ref: '#/definitions/City'
+          responseSchema:
+            $ref: '#/definitions/City'
+        500:
+          description: database error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+  /cities/{id}:
+    delete:
+      tags:
+      - cities
+      summary: Delete city by id
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City's identifier
+        required: true
+        type: string
+      responses:
+        200:
+          description: delete city by id
+          schema:
+            type: string
+            example: OK.
+          responseSchema:
+            type: string
+            example: OK.
+        404:
+          description: city wasn't found
+          schema:
+            $ref: '#/definitions/inline_response_404'
+        500:
+          description: database error
+          schema:
+            $ref: '#/definitions/inline_response_500'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Client is not connected to the database.
+  /cities/random:
+    get:
+      tags:
+      - cities
+      summary: Return random city
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: random city
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+          responseSchema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+        500:
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/inline_response_500'
           responseSchema:
@@ -210,12 +373,7 @@ definitions:
       name:
         type: string
         example: Beer
-      __v:
-        type: string
-        format: int
-        example: "0"
     example:
-      __v: "0"
       name: Beer
       _id: 5b4de63ca37ef415b7d0206f
   User:
@@ -231,20 +389,47 @@ definitions:
       surName:
         type: string
         example: user's surName
-      __v:
-        type: string
-        format: int
-        example: "0"
     example:
       firstName: user's firstName
       surName: user's surName
-      __v: "0"
+      _id: 5b4de63ca37ef415b7d0206f
+  City:
+    type: object
+    required:
+    - name
+    properties:
+      name:
+        type: string
+      country:
+        type: string
+      capital:
+        type: boolean
+      _id:
+        type: string
+        format: uuid
+      location:
+        type: object
+        properties:
+          lat: number
+          long: number
+    example:
+      name: Brest
+      country: Belarus
+      capital: false
+      location:
+        lat: 52.097621
+        long: 23.73405
       _id: 5b4de63ca37ef415b7d0206f
   inline_response_500:
     properties:
       error:
         type: string
-        example: Client is not connected to the database.
+        example: The server encountered an unexpected condition which prevented it from fulfilling the request.
+  inline_response_404:
+    properties:
+      error:
+        type: string
+        example: The server has not found anything matching the URI given.
 responses:
   DBError:
     description: database error

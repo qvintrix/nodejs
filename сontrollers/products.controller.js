@@ -6,7 +6,10 @@ class ProductsController {
 		Product.find((err, products) => {
 			if (err) return next(err);
 
-			res.status(200).json(products);
+			res.status(200).json(products.map(product => ({
+				_id: product._id,
+				name: product.name
+			})));
 		});
 	}
 
@@ -15,7 +18,10 @@ class ProductsController {
 			if (err) return next(err);
 
 			if (product) {
-				res.status(200).json(product);
+				res.status(200).json({
+					_id: product._id,
+					name: product.name
+				});
 			} else {
 				res.sendStatus(404);
 			}
@@ -32,7 +38,10 @@ class ProductsController {
 		product.save((err, product) => {
 			if (err) return next(err);
 
-			res.status(200).json(product);
+			res.status(200).json({
+				_id: product._id,
+				name: product.name
+			});
 		});
 	}
 

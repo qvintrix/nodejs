@@ -7,7 +7,11 @@ class UsersController {
 		User.find((err, users) => {
 			if (err) return next(err);
 
-			res.status(200).json(users);
+			res.status(200).json(users.map(user => ({
+				_id: user._id,
+				firstName: user.firstName,
+				surName: user.surName
+			})));
 		});
 	}
 
