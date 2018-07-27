@@ -68,6 +68,16 @@ paths:
             $ref: '#/definitions/Product'
           responseSchema:
             $ref: '#/definitions/Product'
+        400:
+          description: Validation error
+          schema:
+            $ref: '#/definitions/inline_response_400'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Validation error.
         500:
           description: database error
           schema:
@@ -285,6 +295,16 @@ paths:
             $ref: '#/definitions/City'
           responseSchema:
             $ref: '#/definitions/City'
+        400:
+          description: Validation error
+          schema:
+            $ref: '#/definitions/inline_response_400'
+          responseSchema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Validation error.
         500:
           description: database error
           schema:
@@ -430,6 +450,11 @@ definitions:
       error:
         type: string
         example: The server has not found anything matching the URI given.
+  inline_response_400:
+    properties:
+      error:
+        type: string
+        example: Validation error.
 responses:
   DBError:
     description: database error
